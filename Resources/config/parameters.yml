@@ -26,6 +26,7 @@ parameters:
 
     # Listeners
     innova_path.listener.path.class:               Innova\PathBundle\EventListener\Resource\PathListener
+    innova_path.listener.notification.class:       Innova\PathBundle\EventListener\NotificationListener
 
     # Importers
     innova_path.importer.importer.class:           Innova\PathBundle\Transfer\PathImporter

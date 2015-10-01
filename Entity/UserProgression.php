@@ -77,6 +77,22 @@ class UserProgression implements \JsonSerializable
     protected $authorized;
 
     /**
+     * state of the access to the step
+     * @var boolean
+     *
+     * @ORM\Column(name="locked_access", type="boolean")
+     */
+    protected $locked;
+
+    /**
+     * the lock has been called upon removal ?
+     * @var boolean
+     *
+     * @ORM\Column(name="lockedcall_access", type="boolean")
+     */
+    protected $lockedcall;
+
+    /**
      * CLass constructor
      */
     public function __construct()
@@ -178,11 +194,13 @@ class UserProgression implements \JsonSerializable
     public function jsonSerialize()
     {
         return array (
-            'id'     => $this->id,
-            'userId' => $this->user->getId(),
-            'stepId' => $this->step->getId(),
-            'status' => $this->status,
-            'authorized' => $this->authorized,
+            'id'            => $this->id,
+            'userId'        => $this->user->getId(),
+            'stepId'        => $this->step->getId(),
+            'status'        => $this->status,
+            'authorized'    => $this->authorized,
+            'locked'        => $this->locked,
+            'lockedcall'    => $this->lockedcall,
         );
     }
 
@@ -208,5 +226,53 @@ class UserProgression implements \JsonSerializable
     public function getAuthorized()
     {
         return $this->authorized;
+    }
+
+    /**
+     * Set locked
+     *
+     * @param boolean $locked
+     *
+     * @return UserProgression
+     */
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * Get locked
+     *
+     * @return boolean
+     */
+    public function getLocked()
+    {
+        return $this->locked;
+    }
+
+    /**
+     * Set lockedcall
+     *
+     * @param boolean $lockedcall
+     *
+     * @return UserProgression
+     */
+    public function setLockedcall($lockedcall)
+    {
+        $this->lockedcall = $lockedcall;
+
+        return $this;
+    }
+
+    /**
+     * Get lockedcall
+     *
+     * @return boolean
+     */
+    public function getLockedcall()
+    {
+        return $this->lockedcall;
     }
 }
