@@ -15,7 +15,8 @@ use Innova\PathBundle\Manager\PathManager;
  *
  * @Route(
  *      "/unlock",
- *      name    = "innova_path",
+ *      name    = "innova_path_unlock",
+ *      service = "innova_path.controller.unlock"
  * )
  */
 class UnlockController extends Controller
@@ -40,7 +41,7 @@ class UnlockController extends Controller
      * List users using this path
      * @Route(
      *     "/list/{id}",
-     *     name         = "innova_path_publish",
+     *     name         = "innova_path_lock_userlist",
      *     requirements = {"id" = "\d+"},
      *     options      = {"expose" = true}
      * )
@@ -66,7 +67,7 @@ class UnlockController extends Controller
     /**
      * Ajax call for unlocking step
      * @Route(
-     *     "/unlock/{path}/{step}/{user}",
+     *     "/do/{path}/{step}/{user}",
      *     name="innova_paths_unlock",
      *     options={"expose"=true}
      * )
