@@ -1,9 +1,11 @@
 <?php
 namespace Innova\PathBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 // Controller dependencies
 use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Manager\PathManager;
@@ -20,6 +22,7 @@ class UnlockController extends Controller
 {
     protected $om;
     protected $pathManager;
+
     /**
      * Class constructor - Inject required services
      * @param \Doctrine\Common\Persistence\ObjectManager       $objectManager
@@ -32,6 +35,7 @@ class UnlockController extends Controller
         $this->om              = $objectManager;
         $this->pathManager     = $pathManager;
     }
+
     /**
      * List users using this path
      * @Route(
@@ -58,6 +62,7 @@ class UnlockController extends Controller
             'paths'      => $paths,
         );
     }
+
     /**
      * Ajax call for unlocking step
      * @Route(

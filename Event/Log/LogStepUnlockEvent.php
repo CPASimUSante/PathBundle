@@ -16,6 +16,7 @@ class LogStepUnlockEvent
     protected $step;
     protected $details;
     private $userIds = array();
+
     public function __construct(Path $path, Step $step, $userIds=array())
     {
         $this->path     = $path;
@@ -30,6 +31,7 @@ class LogStepUnlockEvent
         );
         parent::__construct($path->getResourceNode(), $this->details);
     }
+
     /**
      * @return array
      */
