@@ -54,6 +54,10 @@ StepShowCtrl.prototype.callForUnlock = function callForUnlock(nextstep) {
     this.progression.lockedcall = true;
 };
 
+StepShowCtrl.prototype.unlockStep = function unlockStep(step) {
+    this.userProgressionService.unlockStep(step, this.pathService.getPath());
+};
+
 StepShowCtrl.prototype.goTo = function goTo(step) {
 
     var curentStepId = step.id;

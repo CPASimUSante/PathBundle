@@ -1,0 +1,3 @@
+log_resource-innova_path-step_unlock_sentence: called for unlocking step %step% for path %path%
+log_resource-innova_path-step_unlock_shortname: Unlock step
+log_resource-innova_path-step_unlock_title: Unlock step for path

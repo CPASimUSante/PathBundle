@@ -109,7 +109,7 @@ class UserProgressionManager
      * @param $lock
      * @return object
      */
-    public function updateLockedstate(User $user, Step $step, $lockedcall=null, $lock=null)
+    public function updateLockedState(User $user, Step $step, $lockedcall=null, $lock=null)
     {
         // Retrieve the current progression for this step
         $progression = $this->om->getRepository('InnovaPathBundle:UserProgression')->findOneBy(array (
@@ -122,6 +122,29 @@ class UserProgressionManager
         //if lock state has changed
         if ($lock != null)
             $progression->setLocked($lock);
+
+        $this->om->persist($progression);
+        $this->om->flush();
+        return $progression;
+    }
+
+    /**
+     * Authorize access to a step
+     *
+     * @param Step $step
+     * @param $lock
+     * @return object
+     */
+    public function authorizeStep(User $user, Step $step)
+    {
+        // Retrieve the current progression for this step
+        $progression = $this->om->getRepository('InnovaPathBundle:UserProgression')->findOneBy(array (
+            'step' => $step,
+            'user' => $user
+        ));
+
+        //remove the call
+        $progression->setLockedcall(false);
 
         $this->om->persist($progression);
         $this->om->flush();

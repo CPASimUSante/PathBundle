@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+use Claroline\CoreBundle\Entity\User;
 use Innova\PathBundle\Entity\Step;
 
 /**
@@ -89,26 +90,6 @@ class UserProgressionController
     }
 
     /**
-     * Set lock for progression of a User
-     * @param \Innova\PathBundle\Entity\Step $step
-     * @param boolean $lock
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     *
-     * @Route(
-     *     "/steplock/{id}/{locked}",
-     *     name         = "innova_path_progression_setlock",
-     *     requirements = {"id" = "\d+"},
-     *     options      = { "expose" = true }
-     * )
-     * @Method("PUT")
-     */
-    public function setLockAction(Step $step, $locked)
-    {
-        $progression = $this->userProgressionManager->setLock($step, $locked);
-        return new JsonResponse($progression);
-    }
-
-    /**
      * @param Step $step
      * @param Step $nextstep
      * @return \Symfony\Component\HttpFoundation\JsonResponse
@@ -122,7 +103,7 @@ class UserProgressionController
     public function callForUnlock(Step $step, Step $nextstep)
     {
         //Begin send notification (custom)
-        //array of user id : Here, user who will receive the call : the path creator
+        //array of user id to send the notification to = users who will receive the call : the path creator
         $creator = $nextstep->getPath()->getCreator()->getId();
         $userIds = array($creator);
         //create an event, and pass parameters
@@ -131,8 +112,24 @@ class UserProgressionController
         $this->eventDispatcher->dispatch('log', $event); //don't change it.
         //update lockedcall value : set to true = called
         $user = $this->securityToken->getToken()->getUser();
-        $progression = $this->userProgressionManager->updateLockedstate($user, $step, true);
+        $progression = $this->userProgressionManager->updateLockedState($user, $step, true);
         //return response
+        return new JsonResponse($progression);
+    }
+
+    /**
+     * Ajax call for unlocking step
+     * @Route(
+     *     "stepauth/{step}/user/{user}",
+     *     name="innova_path_stepauth",
+     *     options={"expose"=true}
+     * )
+     * @Method("GET")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function authorizeStep(Step $step, User $user)
+    {
+        $progression = $this->userProgressionManager->authorizeStep($user, $step, false);
         return new JsonResponse($progression);
     }
 }

@@ -25,7 +25,6 @@ use Innova\PathBundle\Manager\PathManager;
 class UnlockController extends Controller
 {
     protected $om;
-    protected $pathManager;
 
     /**
      * Class constructor - Inject required services
@@ -65,20 +64,5 @@ class UnlockController extends Controller
         return array (
             'paths'      => $paths,
         );
-    }
-
-    /**
-     * Ajax call for unlocking step
-     * @Route(
-     *     "/path/{path}/step/{step}/user/{user}",
-     *     name="innova_paths_unlock",
-     *     options={"expose"=true}
-     * )
-     * @Method("GET")
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function unlockAction(Path $path, Step $step, User $user)
-    {
-
     }
 }
