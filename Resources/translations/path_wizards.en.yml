@@ -94,6 +94,7 @@ preview_with_pending_changes_message: Path has changes which are not published.<
 preview_with_pending_changes_title: Pending modifications
 previous_step: Previous step
 primary_resource: Primary resource
+progression_lockedcall_sent: Your call has been sent
 properties: Properties
 publish: Publish
 publish_error: The path has not been published due to a technical problem. Please try again.
@@ -140,6 +141,7 @@ step_has_duration: step has a duration
 step_no_resource: There is no resource linked to this step.
 step_paste: Paste
 step_to_template: Save as template
+step_unlock: Call for unlock this step
 step_where: Learning place
 step_who: Working mode
 summary: Summary

@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 // Controller dependencies
 use Doctrine\Common\Persistence\ObjectManager;
+use Claroline\CoreBundle\Entity\User;
+use Innova\PathBundle\Entity\Path\Path;
+use Innova\PathBundle\Entity\Step;
 use Innova\PathBundle\Manager\PathManager;
 
 /**
@@ -67,7 +70,7 @@ class UnlockController extends Controller
     /**
      * Ajax call for unlocking step
      * @Route(
-     *     "/do/{path}/{step}/{user}",
+     *     "/path/{path}/step/{step}/user/{user}",
      *     name="innova_paths_unlock",
      *     options={"expose"=true}
      * )
@@ -76,5 +79,6 @@ class UnlockController extends Controller
      */
     public function unlockAction(Path $path, Step $step, User $user)
     {
+
     }
 }

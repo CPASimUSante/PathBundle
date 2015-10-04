@@ -69,7 +69,7 @@ class UserProgression implements \JsonSerializable
     protected $status;
 
     /**
-     * Can the user access the step
+     * Current state of the user access the step
      * @var boolean
      *
      * @ORM\Column(name="authorized_access", type="boolean")
@@ -77,7 +77,7 @@ class UserProgression implements \JsonSerializable
     protected $authorized;
 
     /**
-     * state of the access to the step
+     * Current state of the lock for the step
      * @var boolean
      *
      * @ORM\Column(name="locked_access", type="boolean")

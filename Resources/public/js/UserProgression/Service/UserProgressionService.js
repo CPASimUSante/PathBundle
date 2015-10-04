@@ -87,15 +87,16 @@
                  */
                 update: function update(step, status, authorized) {
                     var deferred = $q.defer();
+                    var params = { id: step.resourceId, status: status, authorized: authorized };
                     $http
-                        .put(Routing.generate('innova_path_progression_update', { id: step.resourceId, status: status, authorized: authorized }))
+                        .put(Routing.generate('innova_path_progression_update', params))
 
                         .success(function (response) {
                             // Store step progression in the Path progression array
                             if (!angular.isObject(progression[response.stepId])) {
                                 progression[response.stepId] = response;
                             } else {
-                                progression[response.stepId].status = response.status;
+                                progression[response.stepId].status     = response.status;
                                 progression[response.stepId].authorized = response.authorized;
                             }
                             deferred.resolve(response.status);
@@ -130,14 +131,19 @@
                 },
 
                 /**
-                 * unlock step
+                 * Call for step unlock
+                 * @param step
+                 * @param nextstep
                  */
-                unlock: function unlock(step, path) {
+                callforunlock: function callforunlock(step, nextstep) {
                     var deferred = $q.defer();
-                    var params = {path:path, step:step};
+                    var params = {step:step.resourceId, nextstep:nextstep.resourceId};
                     $http
                         .get(Routing.generate('innova_path_step_unlock', params))
                         .success(function (response) {
+                            //display message to user that indicates the call has been sent
+                            AlertService.addAlert('success', Translator.trans('progression_lockedcall_sent', {}, 'path_wizards'));
+
                             deferred.resolve(response);
                         }.bind(this)) //to access this object method and attributes
                         .error(function (response) {

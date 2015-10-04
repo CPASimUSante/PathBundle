@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 use Innova\PathBundle\Entity\Step;
 
 /**
@@ -25,14 +28,22 @@ class UserProgressionController
      * @var \Innova\PathBundle\Manager\UserProgressionManager
      */
     protected $userProgressionManager;
+    protected $eventDispatcher;
+    protected $securityToken;
 
     /**
      * Class constructor
      * @param \Innova\PathBundle\Manager\UserProgressionManager $userProgressionManager
      */
-    public function __construct(UserProgressionManager $userProgressionManager)
+    public function __construct(
+        UserProgressionManager $userProgressionManager,
+        EventDispatcherInterface $eventDispatcher,
+        TokenStorageInterface $securityToken
+    )
     {
-        $this->userProgressionManager = $userProgressionManager;
+        $this->userProgressionManager   = $userProgressionManager;
+        $this->eventDispatcher          = $eventDispatcher;
+        $this->securityToken            = $securityToken;
     }
 
     /**
@@ -42,7 +53,7 @@ class UserProgressionController
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      *
      * @Route(
-     *     "/step/{id}/{status}",
+     *     "/step/{id}/status/{status}",
      *     name         = "innova_path_progression_create",
      *     requirements = {"id" = "\d+"},
      *     options      = { "expose" = true }
@@ -63,7 +74,7 @@ class UserProgressionController
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      *
      * @Route(
-     *     "/step/{id}/{status}/{authorized}",
+     *     "/step/{id}/status/{status}/auth/{authorized}",
      *     name         = "innova_path_progression_update",
      *     requirements = {"id" = "\d+"},
      *     options      = { "expose" = true }
@@ -94,6 +105,34 @@ class UserProgressionController
     public function setLockAction(Step $step, $locked)
     {
         $progression = $this->userProgressionManager->setLock($step, $locked);
+        return new JsonResponse($progression);
+    }
+
+    /**
+     * @param Step $step
+     * @param Step $nextstep
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @Route(
+     *     "/stepunlock/{step}/{nextstep}",
+     *     name         = "innova_path_step_unlock",
+     *     options      = { "expose" = true }
+     * )
+     * @Method("GET")
+     */
+    public function callForUnlock(Step $step, Step $nextstep)
+    {
+        //Begin send notification (custom)
+        //array of user id : Here, user who will receive the call : the path creator
+        $creator = $nextstep->getPath()->getCreator()->getId();
+        $userIds = array($creator);
+        //create an event, and pass parameters
+        $event = new \Innova\PathBundle\Event\Log\LogStepUnlockEvent($nextstep, $userIds);
+        //send the event to the event dispatcher
+        $this->eventDispatcher->dispatch('log', $event); //don't change it.
+        //update lockedcall value : set to true = called
+        $user = $this->securityToken->getToken()->getUser();
+        $progression = $this->userProgressionManager->updateLockedstate($user, $step, true);
+        //return response
         return new JsonResponse($progression);
     }
 }

@@ -43,10 +43,15 @@ StepShowCtrl.prototype.userProgressionService = {};
 StepShowCtrl.prototype.progression = {};
 
 StepShowCtrl.prototype.updateProgression = function (newStatus) {
-    this.userProgressionService.update(this.step, newStatus);
+    //if user can change status, he has access => auth = 1 (true)
+    this.userProgressionService.update(this.step, newStatus, 1);
 };
-StepShowCtrl.prototype.unlock = function unlock(step) {
-    this.userProgressionService.unlock(step, this.pathService.getPath());
+
+/*call for unlock*/
+StepShowCtrl.prototype.callForUnlock = function callForUnlock(nextstep) {
+    this.userProgressionService.callforunlock(this.step, nextstep, this.pathService.getPath());
+    //to avoid having to reload to update value
+    this.progression.lockedcall = true;
 };
 
 StepShowCtrl.prototype.goTo = function goTo(step) {

@@ -64,6 +64,9 @@ class UserProgressionManager
 
         $progression->setStatus($status);
         $progression->setAuthorized($authorized);
+        //unlocked by default
+        $progression->setLocked(0);
+        $progression->setLockedcall(0);
 
         $this->om->persist($progression);
         $this->om->flush();
@@ -100,22 +103,28 @@ class UserProgressionManager
     }
 
     /**
-     * Set state of the lock for User Progression for a step
+     * update state of the lock for User Progression for a step
      *
      * @param Step $step
      * @param $lock
+     * @return object
      */
-    public function setLock(Step $step, $lock)
+    public function updateLockedstate(User $user, Step $step, $lockedcall=null, $lock=null)
     {
-        // Load current logged User
-        $user = $this->securityToken->getToken()->getUser();
         // Retrieve the current progression for this step
         $progression = $this->om->getRepository('InnovaPathBundle:UserProgression')->findOneBy(array (
             'step' => $step,
             'user' => $user
         ));
-        $progression->setLocked($lock);
+        //if unlock call has changed
+        if ($lockedcall != null)
+            $progression->setLockedcall($lockedcall);
+        //if lock state has changed
+        if ($lock != null)
+            $progression->setLocked($lock);
+
         $this->om->persist($progression);
         $this->om->flush();
+        return $progression;
     }
 }

@@ -41,7 +41,8 @@ PathSummaryShowCtrl.prototype.updateProgression = function (step, newStatus) {
     if (!angular.isObject(this.userProgression[step.id])) {
         this.userProgressionService.create(step, newStatus);
     } else {
-        this.userProgressionService.update(step, newStatus);
+        //if user can change status, he has access => auth = 1 (true)
+        this.userProgressionService.update(step, newStatus, 1);
     }
 };
 /**

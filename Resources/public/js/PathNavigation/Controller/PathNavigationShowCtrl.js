@@ -27,7 +27,7 @@ PathNavigationShowCtrl.prototype.goToStep = function goToStep(stepid) {
     if (typeof this.userProgression[rootStep.id]=='undefined'
         || !angular.isDefined(this.userProgression[rootStep.id].authorized)
         || !this.userProgression[rootStep.id].authorized) {
-        this.userProgressionService.update(rootStep, this.userProgression[rootStep.id].status, 1);    //pass 1 (and not "true") to controller : problem in url
+        this.userProgressionService.update(rootStep, this.userProgression[rootStep.id].status, 1);    //pass auth=1 and not "true" to controller : problem in url
     }
     //previous step exists ? NO : we're on root step => access
     if (!angular.isObject(this.pathService.getPrevious(step))) {

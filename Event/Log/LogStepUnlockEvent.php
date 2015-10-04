@@ -4,32 +4,30 @@ namespace Innova\PathBundle\Event\Log;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Claroline\CoreBundle\Event\Log\AbstractLogResourceEvent;
 use Claroline\CoreBundle\Event\Log\NotifiableInterface;
-use Innova\PathBundle\Entity\Path\Path;
 use Innova\PathBundle\Entity\Step;
 
 class LogStepUnlockEvent
     extends AbstractLogResourceEvent    //log associated to a resource
     implements NotifiableInterface      //mandatory for a log to be used as a notification
 {
-    const ACTION = 'resource-innova_path-step_unlock';
-    protected $path;
-    protected $step;
-    protected $details;
-    private $userIds = array();
+    const       ACTION = 'resource-innova_path-step_unlock';
 
-    public function __construct(Path $path, Step $step, $userIds=array())
+    protected   $step;
+    protected   $details;
+    private     $userIds = array();
+
+    public function __construct(Step $step, $userIds=array())
     {
-        $this->path     = $path;
         $this->step     = $step;
         $this->userIds  = $userIds;
-        $this->details = array(
+        $this->details  = array(
             'unlock' => array(
-                'path'      => $path->getId(),
+                'path'      => $step->getPath()->getId(),
                 'step'      => $step->getId(),
                 'stepname'  => $step->getName()
             )
         );
-        parent::__construct($path->getResourceNode(), $this->details);
+        parent::__construct($step->getPath()->getResourceNode(), $this->details);
     }
 
     /**
@@ -93,7 +91,7 @@ class LogStepUnlockEvent
     {
         $notificationDetails = array_merge($this->details, array());
         $notificationDetails['resource'] = array(
-            'id'    => $this->path->getId(),
+            'id'    => $this->step->getPath()->getId(),
             'name'  => $this->resource->getName(),
             'type'  => $this->resource->getResourceType()->getName()
         );
