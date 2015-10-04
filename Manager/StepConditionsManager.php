@@ -30,14 +30,16 @@ class StepConditionsManager
     /**
      * Create a new stepcondition from JSON structure
      *
-     * @param  \Innova\PathBundle\Entity\Step               $step          Parent path of the condition
-     * @return \Innova\PathBundle\Entity\StepCondition                     Edited condition
+     * @param  \Innova\PathBundle\Entity\Step $step Parent path of the condition
+     * @param null $lockedfrom
+     * @param null $lockeduntil
+     * @return StepCondition Edited condition
      */
-    public function createStepCondition(Step $step)
+    public function createStepCondition(Step $step, $lockedfrom = null, $lockeduntil = null)
     {
         $condition = new StepCondition();
 
-        return $this->editStepCondition($step, $condition);
+        return $this->editStepCondition($step, $condition, $lockedfrom, $lockeduntil);
     }
 
     /**
@@ -45,12 +47,20 @@ class StepConditionsManager
      *
      * @param  \Innova\PathBundle\Entity\Step               $step               Parent step of the condition
      * @param  \Innova\PathBundle\Entity\StepCondition      $condition          Current condition to edit
+     * @param null $lockedfrom
+     * @param null $lockeduntil
      * @return \Innova\PathBundle\Entity\StepCondition                          Edited condition
      */
-    public function editStepCondition(Step $step, StepCondition $condition)
+    public function editStepCondition(Step $step, StepCondition $condition, $lockedfrom = null, $lockeduntil = null)
     {
         // Update condition properties
         $condition->setStep($step);
+        if (isset($lockedfrom)){
+            $condition->setLockedfrom(new \DateTime($lockedfrom));
+        }
+        if (isset($lockeduntil)){
+            $condition->setLockeduntil(new \DateTime($lockeduntil));
+        }
 
         // Save modifications
         $this->om->persist($condition);

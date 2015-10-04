@@ -482,13 +482,15 @@ class PublishingManager
         {
             //retrieve the condition
             $conditionJS = $stepJS->condition;
+            $lockedfrom = (isset($conditionJS->lockedfrom)) ? $conditionJS->lockedfrom : null;
+            $lockeduntil = (isset($conditionJS->lockeduntil)) ? $conditionJS->lockeduntil : null;
 
             // Current condition has never been published or condition entity has been deleted => create it
             if (empty($conditionJS->scid)
                 || ($existingCondition->getId() != $conditionJS->scid))
             {
 //echo "create condition <br>\n";
-                $publishedCondition = $this->stepConditionsManager->createStepCondition($stepDB);
+                $publishedCondition = $this->stepConditionsManager->createStepCondition($stepDB, $lockedfrom, $lockeduntil);
                 $uniqId = "_COND".uniqid();
                 $this->uniqId2sc[$uniqId] = $publishedCondition;
                 // Update json structure with new resource ID
@@ -498,7 +500,7 @@ class PublishingManager
             {
 //echo "update condition <br>\n";
                 $publishedCondition = $this->getStepCondition($conditionJS->scid);
-                $publishedCondition = $this->stepConditionsManager->editStepCondition($stepDB, $publishedCondition);
+                $publishedCondition = $this->stepConditionsManager->editStepCondition($stepDB, $publishedCondition, $lockedfrom, $lockeduntil);
             }
             $processedCondition[] = $publishedCondition;
 //echo "manage criteriagroups <br>\n";
