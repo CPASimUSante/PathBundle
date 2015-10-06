@@ -185,11 +185,25 @@
                  */
                 testCondition: function testCondition(step, evaluation) {
                     var result=false;
+
                     //get root criteriagroup
                     var criteriagroups=step.condition.criteriagroups;
                     this.evaluation = evaluation;
                     criterialist = new Array();
                     criterialist.push("<ul>");
+                    //Check dates
+                    //Set to 0AM to be sure we match for equal
+                    var today = new Date(new Date().setHours(0,0,0,0));
+                    if (step.condition.lockeduntil  !== ''){
+                        var datecomp = new Date(step.condition.lockeduntil).getTime()<=today.getTime();
+                        result = datecomp||result;
+                        criterialist.push("<li>"+Translator.trans('condition_lockeduntil', {until:step.condition.lockeduntil}, 'path_wizards')+"</li>");
+                    }
+                    if (step.condition.lockedfrom  !== ''){
+                        var datecomp = new Date(step.condition.lockedfrom).getTime()>=today.getTime();
+                        result = datecomp||result;
+                        criterialist.push("<li>"+Translator.trans('condition_lockedfrom', {from:step.condition.lockedfrom}, 'path_wizards')+"</li>");
+                    }
                     //criteriagroup : OR test
                     for(var i=0;i<criteriagroups.length;i++){
                         result=this.testCriteriagroup(criteriagroups[i])||result;

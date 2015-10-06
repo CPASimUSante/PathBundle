@@ -30,10 +30,12 @@ condition_delete_title: Suppression de la condition
 condition_delete_confirm: Attention, vous êtes sur le point de supprimer la condition. Sans condition, tous les utilisateurs pourront passer à l'étape suivante
 condition_delete: Supprimer
 condition_init_conditionstructure: Initialiser une condition pour l'accès à l'étape
+condition_lockedfrom: L'étape est bloquée à partir de <b>%from%</b>
+condition_lockeduntil: L'étape est bloquée jusqu'au <b>%until%</b>
 condition_no_conditionstructure: Aucune condition n'est définie pour l'étape
 condition_or: OU
 condition_step_lock: Accès par date
-condition_step_lock_warning:  Attention, ce critère supplante tous les autres critères que vous avez pu mettre
+condition_step_lock_warning:  Attention, ce critère supplante tous les autres critères que vous pourrez mettre dans la condition
 condition_step_lock_activate: Activer
 condition_step_lockedfrom: L'étape est bloquée à partir du
 condition_step_lockeduntil: L'étape est bloquée jusqu'au

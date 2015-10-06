@@ -163,8 +163,8 @@ class StepCondition implements \JsonSerializable
         $jsonArray = array (
             'id'                => $this->getId(),
             'scid'              => $this->getId(),
-            'lockedfrom'        => $this->getLockedfrom(),
-            'lockeduntil'       => $this->getLockeduntil(),
+            'lockedfrom'        => is_null($this->getLockedfrom()) ? '' : $this->getLockedfrom()->format('Y-m-d'),
+            'lockeduntil'       => is_null($this->getLockeduntil()) ? '' : $this->getLockeduntil()->format('Y-m-d')
         );
 
         $criteriagroups = array();

@@ -18,11 +18,16 @@
             {{ 'condition_step_lock_warning'|trans:{}:'path_wizards' }}
             <label class="control-label col-md-3" for="conditiondate_check">{{ 'condition_step_lock'|trans:{}:'path_wizards' }} :</label>
             <div class="col-md-9 conditiondate">
-                <input type="checkbox" id="conditiondate_check" ng-model="conditiondate_check" /> {{ 'condition_step_lock_activate'|trans:{}:'path_wizards' }}
+                <input type="checkbox" id="conditiondate_check"
+                       data-ng-model="conditiondate_check"
+                       data-ng-init="conditiondate_check = stepConditionsEditCtrl.conditionstructure[0].lockeduntil.length >0 ? true : false" /> {{ 'condition_step_lock_activate'|trans:{}:'path_wizards' }}
                 <div data-ng-show="conditiondate_check">
                     <div class="row form-group">
                         <label class="control-label data-ng-binding" for="conditiondatefrom">{{ 'condition_step_lockedfrom'|trans:{}:'path_wizards' }}</label>
-                        <input type="checkbox" id="conditiondatefrom_check" ng-model="conditiondatefrom_check" />
+                        <input type="checkbox" id="conditiondatefrom_check"
+                               data-ng-model="conditiondatefrom_check"
+                               data-ng-change="stepConditionsEditCtrl.conditionstructure[0].lockedfrom = conditiondatefrom_check ? stepConditionsEditCtrl.conditionstructure[0].lockedfrom : '' "
+                               data-ng-init="conditiondatefrom_check = stepConditionsEditCtrl.conditionstructure[0].lockedfrom.length>0 ? true : false" />
                         <input type="text" id="conditiondatefrom"
                                data-ng-disabled="!conditiondatefrom_check || !conditiondate_check"
                                data-ng-model="stepConditionsEditCtrl.conditionstructure[0].lockedfrom" />
@@ -45,7 +50,6 @@
 
     <div data-ps-class="step-conditions-container" data-ps-push-class="step-conditions-opened">
         <div class="step-conditions">
-{{stepConditionsEditCtrl.conditionstructure[0]}}
             <!-- Block to display where there is no condition structure -->
             <div data-ng-if="stepConditionsEditCtrl.conditionstructure.length === 0" class="text-center">
                 <em>{{ 'condition_no_conditionstructure'|trans:{}:'path_wizards' }}</em>
