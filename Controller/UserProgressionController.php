@@ -129,7 +129,14 @@ class UserProgressionController
      */
     public function authorizeStep(Step $step, User $user)
     {
+        $userIds = array($user->getId());
+        //create an event, and pass parameters
+        $event = new \Innova\PathBundle\Event\Log\LogStepUnlockDoneEvent($step, $userIds);
+        //send the event to the event dispatcher
+        $this->eventDispatcher->dispatch('log', $event); //don't change it.
+        //update lockedcall value : set to true = called
         $progression = $this->userProgressionManager->authorizeStep($user, $step, false);
+        //return response
         return new JsonResponse($progression);
     }
 }

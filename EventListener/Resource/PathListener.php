@@ -32,15 +32,14 @@ class PathListener extends ContainerAware
         if ($path->isPublished()) {
             // Path is published => display the Player
             $route = 'innova_path_player_wizard';
-        }
-        else {
+        } else {
             // Path is not published (so we can't play the Path) => display the Editor
             $route = 'innova_path_editor_wizard';
         }
 
         $url = $this->container->get('router')->generate(
             $route,
-            array (
+            array(
                 'id' => $path->getId(),
             )
         );
@@ -55,7 +54,7 @@ class PathListener extends ContainerAware
 
         $route = $this->container->get('router')->generate(
             'innova_path_editor_wizard',
-            array (
+            array(
                 'id' => $path->getId(),
             )
         );
@@ -93,7 +92,7 @@ class PathListener extends ContainerAware
     {
         // Create form
         $form = $this->container->get('form.factory')->create('innova_path', new Path());
-        
+
         // Try to process form
         $request = $this->container->get('request');
         $form->handleRequest($request);
@@ -105,11 +104,10 @@ class PathListener extends ContainerAware
             $event->setPublished($published);
 
             $path->initializeStructure();
-            
+
             // Send new path to dispatcher through event object
-            $event->setResources(array ($path));
-        }
-        else {
+            $event->setResources(array($path));
+        } else {
             $content = $this->container->get('templating')->render(
                 'ClarolineCoreBundle:Resource:createForm.html.twig',
                 array(
@@ -120,7 +118,7 @@ class PathListener extends ContainerAware
 
             $event->setErrorFormContent($content);
         }
-        
+
         $event->stopPropagation();
     }
 
@@ -155,7 +153,7 @@ class PathListener extends ContainerAware
         $structure = json_decode($pathToCopy->getStructure());
 
         // Process steps
-        $processedNodes = array ();
+        $processedNodes = array();
         foreach ($structure->steps as $step) {
             $processedNodes = $this->copyStepContent($step, $parent, $processedNodes);
         }
@@ -172,7 +170,7 @@ class PathListener extends ContainerAware
         $event->stopPropagation();
     }
 
-    private function copyStepContent(\stdClass $step, ResourceNode $newParent, array $processedNodes = array ())
+    private function copyStepContent(\stdClass $step, ResourceNode $newParent, array $processedNodes = array())
     {
         // Remove reference to Step Entity
         $step->resourceId = null;
@@ -202,7 +200,7 @@ class PathListener extends ContainerAware
         return $processedNodes;
     }
 
-    private function copyResource(\stdClass $resource, ResourceNode $newParent, array $processedNodes = array ())
+    private function copyResource(\stdClass $resource, ResourceNode $newParent, array $processedNodes = array())
     {
         // Get current User
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
@@ -265,14 +263,15 @@ class PathListener extends ContainerAware
         return $processedNodes;
     }
 
+    /**
+     * @param CustomActionResourceEvent $event
+     */
     public function onUnlock(CustomActionResourceEvent $event)
     {
-        $path = $event->getResource();
+        //$path = $event->getResource();
+
         $route = $this->container->get('router')->generate(
-            'innova_path_unlock_management',
-            array (
-                'id' => $path->getId(),
-            )
+            'innova_path_unlock_management', array()
         );
         $event->setResponse(new RedirectResponse($route));
         $event->stopPropagation();

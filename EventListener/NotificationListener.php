@@ -22,4 +22,24 @@ class NotificationListener extends ContainerAware
         $event->setResponseContent($content);
         $event->stopPropagation();
     }
+
+    /**
+     * Notification from Manager to Collaborator
+     * @param NotificationCreateDelegateViewEvent $event
+     */
+    public function onCreateNotificationUnlockDone(NotificationCreateDelegateViewEvent $event)
+    {
+        $notificationView = $event->getNotificationView();
+        $notification = $notificationView->getNotification();
+        $content = $this->container->get('templating')->render(
+            'InnovaPathBundle:Notification:notification_unlockdone.html.twig',
+            array(
+                'notification'  => $notification,
+                'status'        => $notificationView->getStatus(),
+                'systemName'    => $event->getSystemName()
+            )
+        );
+        $event->setResponseContent($content);
+        $event->stopPropagation();
+    }
 }

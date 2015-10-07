@@ -1,16 +1,20 @@
 <?php
+
 namespace Innova\PathBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-// Controller dependencies
-use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Entity\User;
 use Innova\PathBundle\Entity\Path\Path;
-use Innova\PathBundle\Entity\Step;
+
+// Controller dependencies
+use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Manager\PathManager;
 
 /**
@@ -25,44 +29,64 @@ use Innova\PathBundle\Manager\PathManager;
 class UnlockController extends Controller
 {
     protected $om;
+    protected $pathManager;
 
     /**
      * Class constructor - Inject required services
-     * @param \Doctrine\Common\Persistence\ObjectManager       $objectManager
-     * @param \Innova\PathBundle\Manager\PathManager           $pathManager
+     * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
+     * @param \Innova\PathBundle\Manager\PathManager $pathManager
      */
     public function __construct(
-        ObjectManager          $objectManager,
-        PathManager             $pathManager)
+        ObjectManager $objectManager,
+        PathManager $pathManager)
     {
-        $this->om              = $objectManager;
-        $this->pathManager     = $pathManager;
+        $this->om = $objectManager;
+        $this->pathManager = $pathManager;
     }
 
     /**
-     * List users using this path
+     * Display dashboard for path of users
      * @Route(
-     *     "/list/{id}",
-     *     name         = "innova_path_lock_userlist",
-     *     requirements = {"id" = "\d+"},
+     *     "/userpath/{path}",
+     *     name         = "innova_path_unlock_management",
+     *     requirements={"path" = "\d+"},
      *     options      = {"expose" = true}
      * )
-     * @Template("InnovaPathBundle::pathManagement.html.twig")
      * @Method("GET")
+     * @Template("InnovaPathBundle::unlockManagement.html.twig")
      */
-    public function listUserAction(Path $path)
+    public function displayStepUnlockAction(Path $path)
     {
-        //retrieve users doing the path
-        //???
-        /*foreach ($users as $user)
-        {
-            //get their progression
-            $progression = $this->pathManager->getUserProgression($path, $user);
-            //
-        }*/
-        $paths = $this->container->get('innova_path.manager.path')->findAccessibleByUser();
-        return array (
-            'paths'      => $paths,
+        $data = array();
+        $workspace = $path->getWorkspace();
+        //get list of paths for WS
+        $paths = $this->pathManager->getWorkspacePaths($workspace);
+
+        //retrieve users having access to the WS
+        //TODO Optimize
+       // $users = $this->om->getRepository('ClarolineCoreBundle:User')->findUsersByWorkspace($workspace);
+       // foreach ($paths as $path) {
+           /* $userdata = array();
+         //   foreach ($users as $user) {
+                //get their progression
+                $userdata[] = array(
+                  //  'progression' => $this->pathManager->getUserProgression($path, $user),
+                    'progression' => $this->pathManager->getPathLockedProgression($path),
+                    //'user' => $user
+                );
+           // }*/
+            $userdata = $this->pathManager->getPathLockedProgression($path);
+           // $data[] = array(
+            $data = array(
+                'path'      => $path,
+                'userdata'  => $userdata
+            );
+     //   }
+
+        return array(
+            'workspace' => $workspace,
+            'data'      => $data
         );
+       // return array('data'      => $data);
     }
 }

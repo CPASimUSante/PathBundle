@@ -1,29 +1,32 @@
 {% extends "ClarolineCoreBundle:Workspace:layout.html.twig" %}
 
-{% block stylesheets %}
-    {# Claroline CSS #}
-    {{ parent() }}
-    {# Path Editor styles #}
-{% endblock %}
-
 {% block content %}
-    {% for path in paths if path.entity.published %}
-        <span class="list-group-item">
-        <a href="{{ path('innova_path_player_wizard', { id: path.entity.id }) }}">
-            {{ path.entity.resourceNode.name }}
-        </a>&nbsp;
-        <em>{{ path.entity.description | striptags | truncate(40, true, ' [...]') }}</em>
-            {% if path.canEdit %}
-                <a href="{{ path('innova_path_stepauth', { id: path.entity.id}) }}" class="btn btn-default btn-xs pull-right">
-                    <span class="fa fa-lock"></span>
-                    {{ 'unlock'|trans({}, 'innova_tools') }}
-                </a>
-            {% endif %}
-        </span>
-    {% endfor %}
-{% endblock %}
+    <div class="list-group-item">
+        <h1>Locked steps for path : {{ data.path.resourceNode.name }}</h1>
+        <em>{{ data.path.description | striptags | truncate(40, true, ' [...]') }}</em>
 
-{% block javascripts %}
-    {# Claroline JS #}
-    {{ parent() }}
+        {% if data.userdata is iterable %}
+            <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr><th>User</th><th>Locked Step</th><th>Unlock</th></tr>
+                </thead>
+                <tbody>
+                {% for userprogression in data.userdata %}
+                    <tr>
+                        <td>{{ userprogression.user }}</td>
+                        <td>{{ userprogression.step }}</td>
+                        <td>
+                            <a href="{{ path('innova_path_stepauth', { step: userprogression.step.id, user: userprogression.user.id}) }}" class="btn btn-default btn-xs">
+                            <span class="fa fa-lock"></span>
+                            {{ 'unlock it'|trans({}, 'innova_tools') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
