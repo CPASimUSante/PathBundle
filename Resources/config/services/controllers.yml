@@ -54,11 +54,18 @@ services:
             teamManager:    @claroline.manager.team_manager
         scope: request
 
-
     # Step Conditions controller
     innova_path.controller.unlock:
         class: %innova_path.controller.unlock.class%
         arguments:
             objectManager:  @claroline.persistence.object_manager
             pathManager:    @innova_path.manager.path
+        scope: request
+
+    # Results manager controller
+    innova_path.controller.manageresults:
+        class: %innova_path.controller.manageresults.class%
+        arguments:
+            pathManager:    @innova_path.manager.path
+            objectManager:  @claroline.persistence.object_manager
         scope: request

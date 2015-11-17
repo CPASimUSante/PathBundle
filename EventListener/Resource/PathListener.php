@@ -63,6 +63,18 @@ class PathListener extends ContainerAware
         $event->stopPropagation();
     }
 
+    public function onManageresults(CustomActionResourceEvent $event)
+    {
+        $route = $this->container->get('router')->generate(
+            'innova_path_manage_results',
+            array(
+                'node' => $event->getResource()    //needed to get context and display the breadcrumb
+            )
+        );
+        $event->setResponse(new RedirectResponse($route));
+        $event->stopPropagation();
+    }
+
     /**
      * Fired when the form to create a new ResourceNode is displayed
      * @param \Claroline\CoreBundle\Event\CreateFormResourceEvent $event

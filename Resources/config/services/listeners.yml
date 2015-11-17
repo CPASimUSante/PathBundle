@@ -10,7 +10,7 @@ services:
             - { name: kernel.event_listener, event: delete_innova_path,       method: onDelete }
             - { name: kernel.event_listener, event: copy_innova_path,         method: onCopy }
             - { name: kernel.event_listener, event: administrate_innova_path, method: onAdministrate }
-
+            - { name: kernel.event_listener, event: manageresults_innova_path, method: onManageresults }
     innova_path.listener.notification_listener:
         class: %innova_path.listener.notification.class%
         calls:
