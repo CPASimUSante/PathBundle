@@ -65,10 +65,12 @@ class PathListener extends ContainerAware
 
     public function onManageresults(CustomActionResourceEvent $event)
     {
+        $path = $event->getResource();
+
         $route = $this->container->get('router')->generate(
             'innova_path_manage_results',
             array(
-                'node' => $event->getResource()    //needed to get context and display the breadcrumb
+                'id'   => $path->getId()
             )
         );
         $event->setResponse(new RedirectResponse($route));

@@ -7,7 +7,7 @@ parameters:
     innova_path.controller.user_progression.class: Innova\PathBundle\Controller\UserProgressionController
     innova_path.controller.step_conditions.class:  Innova\PathBundle\Controller\StepConditionsController
     innova_path.controller.unlock.class:           Innova\PathBundle\Controller\UnlockController
-    innova_path.controller.manageresults.class:    Innova\PathBundle\Controller\ManagerResultsController
+    innova_path.controller.manageresults.class:    Innova\PathBundle\Controller\ManageResultsController
 
     # Managers
     innova_path.manager.path.class:                Innova\PathBundle\Manager\PathManager

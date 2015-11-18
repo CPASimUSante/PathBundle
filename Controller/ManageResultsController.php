@@ -17,7 +17,7 @@ use Claroline\CoreBundle\Entity\User;
 use Innova\PathBundle\Entity\Path\Path;
 
 /**
- * Class PathController
+ * Class ManageResultsController
  * 
  * @Route(
  *      "/manage",
@@ -56,9 +56,9 @@ class ManageResultsController
     /**
      * Display dashboard for path of users
      * @Route(
-     *     "/userpath/{path}",
+     *     "/userpath/{id}",
      *     name         = "innova_path_manage_results",
-     *     requirements={"path" = "\d+"},
+     *     requirements = {"id" = "\d+"},
      *     options      = {"expose" = true}
      * )
      * @Method("GET")
@@ -76,13 +76,13 @@ class ManageResultsController
         // $users = $this->om->getRepository('ClarolineCoreBundle:User')->findUsersByWorkspace($workspace);
         // foreach ($paths as $path) {
         /* $userdata = array();
-      //   foreach ($users as $user) {
-             //get their progression
-             $userdata[] = array(
+            // foreach ($users as $user) {
+            // get their progression
+            // $userdata[] = array(
                //  'progression' => $this->pathManager->getUserProgression($path, $user),
-                 'progression' => $this->pathManager->getPathLockedProgression($path),
-                 //'user' => $user
-             );
+               //  'progression' => $this->pathManager->getPathLockedProgression($path),
+               //  'user'        => $user
+            // );
         // }*/
         $userdata = $this->pathManager->getPathLockedProgression($path);
         // $data[] = array(
