@@ -1,9 +1,14 @@
 <?php
 namespace Innova\PathBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 // Controller dependencies
 use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Manager\PathManager;
