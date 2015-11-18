@@ -6,6 +6,7 @@ parameters:
     innova_path.controller.path_editor.class:      Innova\PathBundle\Controller\Wizard\EditorController
     innova_path.controller.user_progression.class: Innova\PathBundle\Controller\UserProgressionController
     innova_path.controller.step_conditions.class:  Innova\PathBundle\Controller\StepConditionsController
+    innova_path.controller.manageresults.class:    Innova\PathBundle\Controller\ManageResultsController
 
     # Managers
     innova_path.manager.path.class:                Innova\PathBundle\Manager\PathManager
@@ -26,6 +27,7 @@ parameters:
 
     # Listeners
     innova_path.listener.path.class:               Innova\PathBundle\EventListener\Resource\PathListener
+    innova_path.listener.notification.class:       Innova\PathBundle\EventListener\NotificationListener
 
     # Importers
     innova_path.importer.importer.class:           Innova\PathBundle\Transfer\PathImporter

@@ -1,0 +1,32 @@
+{% extends "ClarolineCoreBundle:Workspace:layout.html.twig" %}
+
+{% block content %}
+    <div class="list-group-item">
+        <h1>Locked steps for path : {{ data.path.resourceNode.name }}</h1>
+        <em>{{ data.path.description | striptags | truncate(40, true, ' [...]') }}</em>
+
+        {% if data.userdata is iterable %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr><th>User</th><th>Locked Step</th><th>Unlock</th></tr>
+                    </thead>
+                    <tbody>
+                    {% for userprogression in data.userdata %}
+                        <tr>
+                            <td>{{ userprogression.user }}</td>
+                            <td>{{ userprogression.step }}</td>
+                            <td>
+                                <a href="{{ path('innova_path_stepauth', { step: userprogression.step.id, user: userprogression.user.id}) }}" class="btn btn-default btn-xs">
+                                    <span class="fa fa-lock"></span>
+                                    {{ 'unlock it'|trans({}, 'innova_tools') }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

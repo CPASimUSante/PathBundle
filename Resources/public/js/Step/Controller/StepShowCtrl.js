@@ -77,6 +77,10 @@ StepShowCtrl.prototype.updateProgression = function (newStatus) {
     this.userProgressionService.update(this.step, newStatus);
 };
 
+StepShowCtrl.prototype.unlock = function unlock(step) {
+    this.userProgressionService.unlock(step, this.pathService.getPath());
+};
+
 StepShowCtrl.prototype.goTo = function goTo(step) {
 
     var curentStepId = step.id;

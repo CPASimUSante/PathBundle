@@ -50,4 +50,13 @@ services:
             groupManager:   @claroline.manager.group_manager
             securityToken:  @security.token_storage
             teamManager:    @claroline.manager.team_manager
+            dispatcher:     @event_dispatcher
+        scope: request
+
+    # Results manager controller
+    innova_path.controller.manageresults:
+        class: %innova_path.controller.manageresults.class%
+        arguments:
+            pathManager:    @innova_path.manager.path
+            objectManager:  @claroline.persistence.object_manager
         scope: request
