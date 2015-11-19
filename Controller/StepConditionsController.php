@@ -49,7 +49,6 @@ class StepConditionsController extends Controller
      * @param GroupManager $groupManager
      * @param TokenStorageInterface $securityToken
      * @param TeamManager $teamManager
-     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ObjectManager $objectManager,

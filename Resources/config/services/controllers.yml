@@ -40,6 +40,8 @@ services:
         class: %innova_path.controller.user_progression.class%
         arguments:
             userProgressionManager: @innova_path.manager.user_progression
+            dispatcher:             @event_dispatcher
+            securityToken:          @security.token_storage
         scope: request
 
     # Step Conditions controller
@@ -50,15 +52,6 @@ services:
             groupManager:   @claroline.manager.group_manager
             securityToken:  @security.token_storage
             teamManager:    @claroline.manager.team_manager
-            dispatcher:     @event_dispatcher
-        scope: request
-
-    # Step Conditions controller
-    innova_path.controller.unlock:
-        class: %innova_path.controller.unlock.class%
-        arguments:
-            objectManager:  @claroline.persistence.object_manager
-            pathManager:    @innova_path.manager.path
         scope: request
 
     # Results manager controller

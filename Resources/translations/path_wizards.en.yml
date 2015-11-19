@@ -99,6 +99,7 @@ preview_with_pending_changes_message: Path has changes which are not published.<
 preview_with_pending_changes_title: Pending modifications
 previous_step: Previous step
 primary_resource: Primary resource
+progression_save_error: Error during progression save process
 properties: Properties
 publish: Publish
 publish_error: The path has not been published due to a technical problem. Please try again.

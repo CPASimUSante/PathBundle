@@ -99,6 +99,7 @@ preview_with_pending_changes_message: Le Parcours a des modifications non publi�
 preview_with_pending_changes_title: Modifications non publiées
 previous_step: Etape précédente
 primary_resource: Ressource principale
+progression_save_error: Erreur lors de l'enregistrement de la progression
 properties: Propriétés
 publish: Publier
 publish_error: Le parcours n'a pas pu être publié. Veuillez réessayer.
