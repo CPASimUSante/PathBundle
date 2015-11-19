@@ -2,7 +2,6 @@
 
 namespace Innova\PathBundle\Controller;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Claroline\TeamBundle\Manager\TeamManager;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,7 +36,6 @@ class StepConditionsController extends Controller
     private $groupManager;
     private $evaluationRepo;
     private $teamManager;
-    private $eventDispatcher;
     /**
      * Security Token
      * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityToken
@@ -57,15 +55,13 @@ class StepConditionsController extends Controller
         ObjectManager $objectManager,
         GroupManager $groupManager,
         TokenStorageInterface $securityToken,
-        TeamManager $teamManager,
-        EventDispatcherInterface $eventDispatcher
+        TeamManager $teamManager
     )
     {
         $this->groupManager  = $groupManager;
         $this->om            = $objectManager;
         $this->securityToken = $securityToken;
         $this->teamManager   = $teamManager;
-        $this->eventDispatcher = $eventDispatcher;
     }
     /**
      * Get user group for criterion
@@ -310,27 +306,5 @@ class StepConditionsController extends Controller
             }
         }
         return new JsonResponse($data);
-    }
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @Route(
-     *     "/stepunlock/{path}/{step}",
-     *     name         = "innova_path_step_unlock",
-     *     options      = { "expose" = true }
-     * )
-     * @Method("GET")
-     */
-    public function callForUnlock(Path $path, Step $step)
-    {
-        //Begin send notification (custom)
-        //array of user id : Here, user who will receive the call : the path creator
-        //$user = $this->securityToken->getToken()->getUser();
-        //$userIds = $path->getCreator()->getId();
-        //create an event, and pass parameters
-        $event = new \Innova\PathBundle\Event\Log\LogStepUnlockEvent($path, $step, $userIds);
-        //send the event to the event dispatcher
-        $this->eventDispatcher->dispatch('log', $event); //don't change it.
-        //End send notification
     }
 }

@@ -33,7 +33,7 @@ condition_init_conditionstructure: Initialiser une condition pour l'accès à l'
 condition_no_conditionstructure: Aucune condition n'est définie pour l'étape
 condition_or: OU
 condition_step_lock: Accès par date
-condition_step_lock_warning:  Attention, ce critère supplante tous les autres critères que vous avez pu mettre
+condition_step_lock_warning:  Attention, ce critère supplante tous les autres critères que vous pourrez mettre dans la condition
 condition_step_lock_activate: Activer
 condition_step_lockedfrom: L'étape est bloquée à partir du
 condition_step_lockeduntil: L'étape est bloquée jusqu'au
