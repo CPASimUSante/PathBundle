@@ -40,6 +40,8 @@ informations: Informations
 
 # L
 local: Local
+locked_step: Locked step
+locked_steps_list: Locked steps for path
 library: In a library
 
 
@@ -75,6 +77,10 @@ submit: Submit
 student: Individually
 status: Status
 select: Select
+
+#U
+unlockit: Unlock access
+user: User
 
 # W
 warning_primary_resource_deleted: The primary resource 'resourceName' (resourceId) no longer exists. It has been removed from path.

@@ -40,32 +40,7 @@ class UnlockController extends Controller
         $this->om              = $objectManager;
         $this->pathManager     = $pathManager;
     }
-    /**
-     * List users using this path
-     * @Route(
-     *     "/list/{id}",
-     *     name         = "innova_path_publish",
-     *     requirements = {"id" = "\d+"},
-     *     options      = {"expose" = true}
-     * )
-     * @Template("InnovaPathBundle::pathManagement.html.twig")
-     * @Method("GET")
-     */
-    public function listUserAction(Path $path)
-    {
-        //retrieve users doing the path
-        //???
-        /*foreach ($users as $user)
-        {
-            //get their progression
-            $progression = $this->pathManager->getUserProgression($path, $user);
-            //
-        }*/
-        $paths = $this->container->get('innova_path.manager.path')->findAccessibleByUser();
-        return array (
-            'paths'      => $paths,
-        );
-    }
+
     /**
      * Ajax call for unlocking step
      * @Route(
