@@ -16,10 +16,10 @@ use Claroline\CoreBundle\Entity\User;
 use Innova\PathBundle\Entity\Path\Path;
 
 /**
- * Class PathController
+ * Class ManageResultsController
  *
  * @Route(
- *      "/unlock",
+ *      "/manage",
  *      name    = "innova_path_manageresults",
  *      service = "innova_path.controller.manageresults"
  * )

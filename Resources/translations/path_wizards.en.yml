@@ -32,6 +32,11 @@ condition_delete: Delete
 condition_init_conditionstructure: Initialize a condition to access the step
 condition_no_conditionstructure : No condition is set for the step
 condition_or: OR
+condition_step_lock: Access with date
+condition_step_lock_warning:  Warning, this criterion overrides all condition criteria you could set
+condition_step_lock_activate: Activate
+condition_step_lockedfrom: Step is locked from
+condition_step_lockeduntil: Step is locked until
 condition_step_no_activity: Warning, no activity is linked to this step
 condition_step_activity_notmanageable : Warning, the activity you chose is in manual evaluation : you can't use the evaluation related criteria for this step
 criteriagroup_delete_title: Delete this criteria group

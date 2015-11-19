@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+use Innova\PathBundle\Entity\Path\Path;
+
 // Controller dependencies
 use Doctrine\Common\Persistence\ObjectManager;
 use Innova\PathBundle\Manager\PathManager;
@@ -18,7 +20,8 @@ use Innova\PathBundle\Manager\PathManager;
  *
  * @Route(
  *      "/unlock",
- *      name    = "innova_path",
+ *      name    = "innova_path_unlock",
+ *      service = "innova_path.controller.unlock"
  * )
  */
 class UnlockController extends Controller

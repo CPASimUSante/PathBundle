@@ -27,6 +27,9 @@
                 this.id                = IdentifierService.generateUUID();
                 //id of the stepcondition in entity
                 this.scid              = null;
+                //general conditions
+                this.lockedfrom        = null;
+                this.lockeduntil       = null;
                 //list of criteria group
                 this.criteriagroups    = [];
             };

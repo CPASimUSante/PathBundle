@@ -131,14 +131,19 @@
                     return deferred.promise;
                 },
                 /**
-                 * unlock step
+                 * Call for step unlock
+                 * @param step
+                 * @param nextstep
                  */
-                unlock: function unlock(step, path) {
+                callforunlock: function callforunlock(step, nextstep) {
                     var deferred = $q.defer();
-                    var params = {path:path, step:step};
+                    var params = {step:step.resourceId, nextstep:nextstep.resourceId};
                     $http
                         .get(Routing.generate('innova_path_step_unlock', params))
                         .success(function (response) {
+                            //display message to user that indicates the call has been sent
+                            AlertService.addAlert('success', Translator.trans('progression_lockedcall_sent', {}, 'path_wizards'));
+
                             deferred.resolve(response);
                         }.bind(this)) //to access this object method and attributes
                         .error(function (response) {

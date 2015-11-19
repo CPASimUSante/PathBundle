@@ -41,6 +41,18 @@ class StepCondition implements \JsonSerializable
     protected $step;
 
     /**
+     * Step locked from date
+     * @ORM\Column(name="lockedfrom", type="datetime", nullable=true)
+     */
+    protected $lockedfrom;
+
+    /**
+     * Step locked until date
+     * @ORM\Column(name="lockeduntil", type="datetime", nullable=true)
+     */
+    protected $lockeduntil;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -150,12 +162,61 @@ class StepCondition implements \JsonSerializable
         return $this->step;
     }
 
+    /**
+     * Get lockedfrom
+     *
+     * @return \DateTime
+     */
+    public function getLockedfrom()
+    {
+        return $this->lockedfrom;
+    }
+
+    /**
+     * Set lockedfrom
+     *
+     * @param \DateTime $lockedfrom
+     *
+     * @return StepCondition
+     */
+    public function setLockedfrom($lockedfrom)
+    {
+        $this->lockedfrom = $lockedfrom;
+        return $this;
+    }
+
+    /**
+     * Get lockeduntil
+     *
+     * @return \DateTime
+     */
+    public function getLockeduntil()
+    {
+        return $this->lockeduntil;
+    }
+
+    /**
+     * Set lockeduntil
+     *
+     * @param \DateTime $lockeduntil
+     *
+     * @return StepCondition
+     */
+    public function setLockeduntil($lockeduntil)
+    {
+        $this->lockeduntil = $lockeduntil;
+        return $this;
+    }
+
+
     public function jsonSerialize()
     {
         // Initialize data array
         $jsonArray = array (
             'id'                => $this->id,
             'scid'              => $this->id,
+            'lockedfrom'        => $this->getLockedfrom(),
+            'lockeduntil'       => $this->getLockeduntil(),
         );
 
         $criteriagroups = array();

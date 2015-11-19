@@ -184,6 +184,18 @@ class PathManager
     }
 
     /**
+     * Get list of users who have called for unlock
+     *
+     * @param Path $path
+     * @return mixed
+     */
+    public function getPathLockedProgression(Path $path)
+    {
+        $results = $this->om->getRepository('InnovaPathBundle:UserProgression')->findByPathAndLockedStep($path);
+        return $results;
+    }
+
+    /**
      * Create a new path
      * @param  \Innova\PathBundle\Entity\Path\Path $path
      * @param  \Claroline\CoreBundle\Entity\Workspace\Workspace $workspace

@@ -65,6 +65,10 @@ class UserProgressionManager
         $progression->setStatus($status);
         $progression->setAuthorized($authorized);
 
+        //unlocked by default
+        $progression->setLocked(0);
+        $progression->setLockedcall(0);
+
         $this->om->persist($progression);
         $this->om->flush();
 
@@ -100,23 +104,60 @@ class UserProgressionManager
     }
 
     /**
-     * Set state of the lock for User Progression for a step
+     * update state of the lock for User Progression for a step
      *
+     * @param User $user
      * @param Step $step
-     * @param $lock
+     * @param null $lockedcall
+     * @param null $lock
+     * @return object
      */
-    public function setLock(Step $step, $lock)
+    public function updateLockedState(User $user, Step $step, $lockedcall=null, $lock=null)
     {
-        // Load current logged User
-        $user = $this->securityToken->getToken()->getUser();
         // Retrieve the current progression for this step
         $progression = $this->om->getRepository('InnovaPathBundle:UserProgression')->findOneBy(array (
             'step' => $step,
             'user' => $user
         ));
-        $progression->setLocked($lock);
+
+        //if unlock call has changed
+        if ($lockedcall != null)
+            $progression->setLockedcall($lockedcall);
+
+        //if lock state has changed
+        if ($lock != null)
+            $progression->setLocked($lock);
+
         $this->om->persist($progression);
         $this->om->flush();
+        return $progression;
     }
 
+    /**
+     * Authorize access to a step
+     * @Route(
+     *     "stepauth/{step}/user/{user}",
+     *     name="innova_path_stepauth",
+     *     options={"expose"=true}
+     * )
+     * @Method("GET")
+     * @param User $user
+     * @param Step $step
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function authorizeStep(User $user, Step $step)
+    {
+        // Retrieve the current progression for this step
+        $progression = $this->om->getRepository('InnovaPathBundle:UserProgression')->findOneBy(array (
+            'step' => $step,
+            'user' => $user
+        ));
+
+        //remove the call
+        $progression->setLockedcall(false);
+
+        $this->om->persist($progression);
+        $this->om->flush();
+        return $progression;
+    }
 }

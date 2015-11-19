@@ -194,13 +194,13 @@ class UserProgression implements \JsonSerializable
     public function jsonSerialize()
     {
         return array (
-            'id'     => $this->id,
-            'userId' => $this->user->getId(),
-            'stepId' => $this->step->getId(),
-            'status' => $this->status,
-            'authorized' => $this->authorized,
+            'id'            => $this->id,
+            'userId'        => $this->user->getId(),
+            'stepId'        => $this->step->getId(),
+            'status'        => $this->status,
+            'authorized'    => $this->authorized,
             'locked'        => $this->locked,
-            'lockedcall'        => $this->lockedcall,
+            'lockedcall'    => $this->lockedcall,
 
         );
     }

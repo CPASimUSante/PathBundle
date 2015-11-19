@@ -32,6 +32,11 @@ condition_delete: Supprimer
 condition_init_conditionstructure: Initialiser une condition pour l'accès à l'étape
 condition_no_conditionstructure: Aucune condition n'est définie pour l'étape
 condition_or: OU
+condition_step_lock: Accès par date
+condition_step_lock_warning:  Attention, ce critère supplante tous les autres critères que vous avez pu mettre
+condition_step_lock_activate: Activer
+condition_step_lockedfrom: L'étape est bloquée à partir du
+condition_step_lockeduntil: L'étape est bloquée jusqu'au
 condition_step_no_activity: Attention, vous n'avez pas associé d'activité à cette étape
 condition_step_activity_notmanageable : Attention, l'activité que vous avez choisi est en évaluation manuelle : vous ne pouvez utiliser les critères relatifs à une évaluation pour cette étape
 criteriagroup_delete_title: Suppression du groupe de critère

@@ -64,19 +64,6 @@ class PathListener extends ContainerAware
         $event->stopPropagation();
     }
 
-    public function onUnlock(CustomActionResourceEvent $event)
-    {
-        $path = $event->getResource();
-        $route = $this->container->get('router')->generate(
-            'innova_path_unlock_management',
-            array (
-                'id' => $path->getId(),
-            )
-        );
-        $event->setResponse(new RedirectResponse($route));
-        $event->stopPropagation();
-    }
-
     public function onManageresults(CustomActionResourceEvent $event)
     {
         $path = $event->getResource();
