@@ -18,7 +18,7 @@ condition_criterion_test_usergroup_nogroup : Vous devez appartenir au groupe <b>
 condition_criterion_test_userteam : Vous devez appartenir à l'équipe <b>%activityTeam%</b>, actuellement vous appartenez à l'équipe <b>%userTeam%</b>
 condition_criterion_test_userteam_noteam : Vous devez appartenir à l'équipe <b>%activityTeam%</b>, actuellement vous n'appartenez à <b>aucune équipe</b>
 condition_criterion_type_activityrepetition: Répétition de l'activité
-condition_criterion_type_activitystatus: Status de l'activité
+condition_criterion_type_activitystatus: Statut de l'activité
 condition_criterion_type_usergroup: Groupe d'utilisateur
 condition_criterion_type_userteam: Equipe d'utilisateur
 condition_criterion_type: Type de critère
@@ -30,6 +30,8 @@ condition_delete_title: Suppression de la condition
 condition_delete_confirm: Attention, vous êtes sur le point de supprimer la condition. Sans condition, tous les utilisateurs pourront passer à l'étape suivante
 condition_delete: Supprimer
 condition_init_conditionstructure: Initialiser une condition pour l'accès à l'étape
+condition_lockedfrom: L'étape est bloquée à partir de <b>%from%</b>
+condition_lockeduntil: L'étape est bloquée jusqu'au <b>%until%</b>
 condition_no_conditionstructure: Aucune condition n'est définie pour l'étape
 condition_or: OU
 condition_step_lock: Accès par date
@@ -99,7 +101,9 @@ preview_with_pending_changes_message: Le Parcours a des modifications non publi�
 preview_with_pending_changes_title: Modifications non publiées
 previous_step: Etape précédente
 primary_resource: Ressource principale
+progression_lockedcall_sent: Votre demande a été transmise
 progression_save_error: Erreur lors de l'enregistrement de la progression
+progression_setlock_error : Erreur lors de l'application du verrou
 properties: Propriétés
 publish: Publier
 publish_error: Le parcours n'a pas pu être publié. Veuillez réessayer.
@@ -148,6 +152,7 @@ step_no_resource: Il n'y a aucune ressource rattachée à cette étape.
 step_not_accessible: Cette étape n'est pas accessible pour le moment.
 step_paste: Coller
 step_to_template: Sauvegarder comme modèle
+step_unlock: Demande de déblocage de l'étape
 step_who: Modalité de travail
 step_where: Lieu d'apprentissage
 summary: Sommaire
