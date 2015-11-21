@@ -40,10 +40,8 @@ informations: Informations
 
 # L
 local: Local
-locked_step: Locked step
-locked_steps_list: Locked steps for path
 library: In a library
-
+locked: Locked
 
 # M
 my_paths : My paths
@@ -60,12 +58,14 @@ others_paths : Other paths
 # P
 paths: Paths
 path: Path
+path_steps_dashboard: Dashboard for path steps
 path_not_found: Path not found
 path_delete_success: Path has been deleted
 path_delete_error: Le parcours has not been deleted due to technical problem. Please try again
 play: Execute
 paths_list: Paths list
 progression: Progression
+progression_step: Progression for steps
 path_open_not_published_error: The path you wanted to open has not been published yet by its owner.
 paths_template_list: Template paths list
 
@@ -77,6 +77,7 @@ submit: Submit
 student: Individually
 status: Status
 select: Select
+step: Step
 
 #U
 unlockit: Unlock access

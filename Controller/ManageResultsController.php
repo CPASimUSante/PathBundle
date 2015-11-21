@@ -72,30 +72,44 @@ class ManageResultsController
 
         //retrieve users having access to the WS
         //TODO Optimize
-        // $users = $this->om->getRepository('ClarolineCoreBundle:User')->findUsersByWorkspace($workspace);
-        // foreach ($paths as $path) {
-        /* $userdata = array();
-      //   foreach ($users as $user) {
-             //get their progression
-             $userdata[] = array(
-               //  'progression' => $this->pathManager->getUserProgression($path, $user),
-                 'progression' => $this->pathManager->getPathLockedProgression($path),
-                 //'user' => $user
-             );
-        // }*/
+        $users = $this->om->getRepository('ClarolineCoreBundle:User')->findUsersByWorkspace($workspace);
+        //foreach ($paths as $path) {
+            $userdata = array();
+            //for all users in the WS
+            foreach ($users as $user) {
+                //get their progression
+                $userdata[] = array(
+                    'user'          => $user,
+                    'progression'   => $this->pathManager->getUserProgression($path, $user),
+                    'locked'        => $this->pathManager->getPathLockedProgression($path),
+                    //'user' => $user
+                );
+            }
+            $data = array(
+                'path'      => $path,
+                'userdata'  => $userdata
+            );
+       // }
+        return array(
+            '_resource' => $path,
+            'workspace' => $workspace,
+            'data'      => $data
+        );
+
+
+        /*
         $userdata = $this->pathManager->getPathLockedProgression($path);
         // $data[] = array(
         $data = array(
             'path'      => $path,
             'userdata'  => $userdata
         );
-        //   }
 
         return array(
             '_resource' => $path,
             'workspace' => $workspace,
             'data'      => $data
         );
-        // return array('data'      => $data);
+        */
     }
 }

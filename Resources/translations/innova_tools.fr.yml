@@ -38,9 +38,8 @@ informations: Informations
 
 # L
 library: A la bibliothèque
-locked_step: Bloqué à l'étape
-locked_steps_list: Etapes bloquées pour le parcours
 local: Locales
+locked: Bloquée
 
 # M
 my_paths: Mes parcours
@@ -56,7 +55,9 @@ others_paths : Autres parcours
 # P
 paths: Parcours
 path: Parcours
+path_steps_dashboard: Tableau de bord pour le parcours
 progression: Avancement
+progression_step: Avancement pour les étapes
 paths_list: Liste des parcours
 path_not_found: Le parcours n'a pas été trouvé
 play: Exécuter
@@ -73,6 +74,7 @@ submit: Sauvegarder
 student: Individuellement
 status: Statut
 select: Sélectionner
+step: Etape
 
 #U
 unlockit: Débloquer l'accès

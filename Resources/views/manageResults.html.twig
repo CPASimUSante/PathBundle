@@ -1,32 +1,77 @@
 {% extends "ClarolineCoreBundle:Workspace:layout.html.twig" %}
 
 {% block content %}
+    <div class="navbar navbar-default">
+        <div class="container-fluid">
+            <p class="navbar-text text-success" id="unlocked"></p>
+        </div>
+    </div>
     <div class="list-group-item">
-        <h1>{{ 'locked_steps_list'|trans({}, 'innova_tools') }} : {{ data.path.resourceNode.name }}</h1>
+        <h1>{{ 'path_steps_dashboard'|trans({}, 'innova_tools') }} : {{ data.path.resourceNode.name }}</h1>
         <em>{{ data.path.description | striptags | truncate(40, true, ' [...]') }}</em>
 
         {% if data.userdata is iterable %}
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                    <tr><th>{{ 'user'|trans({}, 'innova_tools') }}</th><th>{{ 'locked_step'|trans({}, 'innova_tools') }}</th><th>Action</th></tr>
+                    <tr><th>{{ 'user'|trans({}, 'innova_tools') }}</th><th>{{ 'progression_step'|trans({}, 'innova_tools') }}</th></tr>
                     </thead>
                     <tbody>
-                    {% for userprogression in data.userdata %}
-                        <tr>
-                            <td>{{ userprogression.user }}</td>
-                            <td>{{ userprogression.step }}</td>
-                            <td>
-                                <a href="{{ path('innova_path_stepauth', { step: userprogression.step.id, user: userprogression.user.id}) }}" class="btn btn-default btn-xs">
-                                    <span class="fa fa-lock"></span>
-                                    {{ 'unlockit'|trans({}, 'innova_tools') }}
-                                </a>
-                            </td>
-                        </tr>
+                    {% for userprogressions in data.userdata %}
+                    <tr class="userstepunlock">
+                        <td class="username">{{ userprogressions.user.firstName ~ ' ' ~ userprogressions.user.lastName }}</td>
+                        <td>
+                            <table class="table">
+                                <thead>
+                                <tr><th>{{ 'step'|trans({}, 'innova_tools') }}</th><th>{{ 'status'|trans({}, 'innova_tools') }}</th><th>{{ 'locked'|trans({}, 'innova_tools') }}</th></tr>
+                                </thead>
+                                <tbody>
+                            {% for userprogression in userprogressions.progression %}
+                                {% if (userprogression.step.activity.title is defined) %}
+                                        <tr>
+                                            <td>{{ userprogression.step.activity.title }}</td>
+                                            <td>{{ userprogression.status }}</td>
+                                            <td>
+                                            {% if userprogression.lockedcall %}
+                                                <button class="btn btn-default btn-xs unlock"
+                                                        data-step="{{ userprogression.step.id }}"
+                                                        data-user="{{ userprogression.user.id }}">
+                                                    <span class="fa fa-lock"></span>
+                                                    {{ 'unlockit'|trans({}, 'innova_tools') }}
+                                                </button>
+                                            {% endif %}
+                                            </td>
+                                        </tr>
+                                {% endif %}
+                            {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
         {% endif %}
+<script type="text/javascript">
+    $(".unlock").on("click", function(){
+        var that = $(this);
+        $.ajax({
+            url: Routing.generate(
+                    'innova_path_stepauth',
+                    { step: $(this).attr("data-step"), user: $(this).attr("data-user")}
+            ),
+            type: 'GET',
+            success: function (data) {
+                $('#unlocked').html("Step unlocked for " + $(that).closest(".userstepunlock").find(".username").html());
+                $(that).remove();
+            },
+            error: function( jqXHR, textStatus, errorThrown){
+                $('#unlocked').html("error. textStatus="+ textStatus + " errorThrown="+ errorThrown);
+            }
+        });
+
+    });
+</script>
     </div>
 {% endblock %}
