@@ -53,6 +53,7 @@ delete_activity: Supprimer le lien avec l'activité
 delete_step: Supprimer l'étape
 description_help: Saisir une courte description du parcours
 discard_changes: Annuler les modifications
+done: fait
 draft: Non publié
 
 # e
@@ -133,6 +134,7 @@ secondary_resources: Ressources complémentaires
 see_activity: Voir l'activité
 see_step_siblings: Voir les étapes soeurs
 select_activity: Sélectionner une activité existante
+seen: Vu
 show_path_info: Afficher les informations relatives au Parcours
 step_access_denied: Vous n'avez pas effectué les étapes précédentes
 step_access_denied_condition: Vous n'avez pas rempli les conditions pour accéder à l'étape %stepName% parce que : %conditionList%
@@ -153,6 +155,7 @@ step_not_accessible: Cette étape n'est pas accessible pour le moment.
 step_paste: Coller
 step_to_template: Sauvegarder comme modèle
 step_unlock: Demande de déblocage de l'étape
+step_unlocked: Etape débloquée pour %user%
 step_who: Modalité de travail
 step_where: Lieu d'apprentissage
 summary: Sommaire
@@ -166,11 +169,14 @@ template_delete: Supprimer
 template_name: Nom
 template_save: Sauvegarder le modèle
 template_edit_title: Modèle
+to_do: A faire
+to_review: A refaire
 toggle_summary: Afficher/Masquer le sommaire
 
 # u
 undo: Annuler
 unsaved: Non sauvegardé
+unseen: Non vu
 user_progression_step_seen: Vous avez déjà vu cette étape
 user_progression_step_unseen: Vous n'avez pas encore vu cette étape
 user_progression_step_to_do: Vous avez marqué cette étape comme étant à faire

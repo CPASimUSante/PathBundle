@@ -17,6 +17,7 @@ class: The class
 classroom: In a classroom
 close: Close
 choose_model: Choose a model
+completed: Completed
 
 # D
 description: Description
@@ -25,6 +26,9 @@ delete: Delete
 
 # E
 edit: Edit
+
+#F
+failed: Failed
 
 # G
 groupware: Groupware
@@ -36,7 +40,7 @@ heritated_from: Heritated from
 
 # I
 informations: Informations
-
+incomplete: Incomplete
 
 # L
 local: Local
@@ -50,12 +54,14 @@ my_paths : My paths
 # N
 next: Next
 no_path_found: No path found
+not_attempted: Not attempted
 name: Name of the path
 
 # O
 others_paths : Other paths
 
 # P
+passed: Passed
 paths: Paths
 path: Path
 path_steps_dashboard: Dashboard for path steps
@@ -82,6 +88,7 @@ step: Step
 #U
 unlockit: Unlock access
 user: User
+unknown: Inconnu
 
 # W
 warning_primary_resource_deleted: The primary resource 'resourceName' (resourceId) no longer exists. It has been removed from path.

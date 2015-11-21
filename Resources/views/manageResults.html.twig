@@ -30,7 +30,7 @@
                                 {% if (userprogression.step.activity.title is defined) %}
                                         <tr>
                                             <td>{{ userprogression.step.activity.title }}</td>
-                                            <td>{{ userprogression.status }}</td>
+                                            <td>{{ userprogression.status | trans({}, 'path_wizards') }}</td>
                                             <td>
                                             {% if userprogression.lockedcall %}
                                                 <button class="btn btn-default btn-xs unlock"
@@ -53,25 +53,31 @@
                 </table>
             </div>
         {% endif %}
-<script type="text/javascript">
-    $(".unlock").on("click", function(){
-        var that = $(this);
-        $.ajax({
-            url: Routing.generate(
-                    'innova_path_stepauth',
-                    { step: $(this).attr("data-step"), user: $(this).attr("data-user")}
-            ),
-            type: 'GET',
-            success: function (data) {
-                $('#unlocked').html("Step unlocked for " + $(that).closest(".userstepunlock").find(".username").html());
-                $(that).remove();
-            },
-            error: function( jqXHR, textStatus, errorThrown){
-                $('#unlocked').html("error. textStatus="+ textStatus + " errorThrown="+ errorThrown);
-            }
-        });
 
-    });
-</script>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(".unlock").on("click", function(){
+            var that = $(this);
+            $.ajax({
+                url: Routing.generate(
+                        'innova_path_stepauth',
+                        { step: $(this).attr("data-step"), user: $(this).attr("data-user")}
+                ),
+                type: 'GET',
+                success: function (data) {
+                    $('#unlocked').html("Step unlocked for " + $(that).closest(".userstepunlock").find(".username").html());
+                    {#/* var user = $(that).closest(".userstepunlock").find(".username").html();
+                     $('#unlocked').html( {{ 'step_unlocked' | trans({'%user%':  user}, 'path_wizards')}});
+                    */#}
+                    $(that).remove();
+                },
+                error: function( jqXHR, textStatus, errorThrown){
+                    $('#unlocked').html("error. textStatus="+ textStatus + " errorThrown="+ errorThrown);
+                }
+            });
+        });
+    </script>
 {% endblock %}

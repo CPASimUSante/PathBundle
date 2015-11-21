@@ -53,6 +53,7 @@ delete_activity: Delete activity link
 delete_step: Delete step
 description_help: Enter a short description of the path
 discard_changes: Discard changes
+done: Done
 draft: Not published
 
 # e
@@ -135,6 +136,7 @@ secondary_resources: Secondary resources
 see_activity: See activity
 see_step_siblings: See siblings of the step
 select_activity: Select existing activity
+seen: Seen
 show_path_info: Show information o the Path
 sidebar_close: Close
 step_access_denied: You didn't pass the previous steps
@@ -155,6 +157,7 @@ step_no_resource: There is no resource linked to this step.
 step_paste: Paste
 step_to_template: Save as template
 step_unlock: Call for unlock this step
+step_unlocked: Step unlocked for %user%
 step_where: Learning place
 step_who: Working mode
 summary: Summary
@@ -167,11 +170,14 @@ template_edit_title: Template
 template_name: Name
 template_save: Save template
 templates: Templates
+to_do: To do
+to_review: To review
 toggle_summary: Display/Hide summary
 
 # u
 undo: Undo
 unsaved: Not saved
+unseen: Unseen
 user_progression_step_seen: You have seen this step
 user_progression_step_unseen: You have not seen this step
 user_progression_step_to_do: You have marked this step as to do
