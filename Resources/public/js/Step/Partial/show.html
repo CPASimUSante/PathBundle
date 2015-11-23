@@ -8,7 +8,7 @@
 
     <!-- User is not authorized to access this step -->
     <div data-ng-if="!stepShowCtrl.authorization.granted" class="col-md-12">
-        <div class="alert alert-info text-center" data-ng-bind-html="stepShowCtrl.authorization.message"></div>
+        <div class="alert alert-info text-left" data-ng-bind-html="stepShowCtrl.authorization.message"></div>
     </div>
 
     <!-- Current step is not accessible for now -->

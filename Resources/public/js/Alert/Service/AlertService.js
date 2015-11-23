@@ -13,7 +13,6 @@
             var alerts = [];
 
             var current = {};
-            var timeoutflag = true;
             return {
                 getCurrent: function getCurrent() {
                     if (alerts.length > 0) {
@@ -37,7 +36,7 @@
                  * @param type
                  * @returns AlertService
                  */
-                addAlert: function addAlert(type, msg, timeoutflag) {
+                addAlert: function addAlert(type, msg) {
                     var display = false;
                     if (alerts.length == 0) {
                         display = true;
@@ -47,18 +46,10 @@
                     alerts.push({ type: type, msg: msg });
 
                     if (display) {
-                        if (timeoutflag) {
-                            this.displayAlert(alerts.shift());
-                        } else {
-                            this.displayAlertWithoutTimeout(alerts.shift());
-                        }
+                        this.displayAlert(alerts.shift());
                     }
 
                     return this;
-                },
-                displayAlertWithoutTimeout: function displayAlertWithoutTimeout(alert) {
-                    current.type = alert.type;
-                    current.msg = alert.msg;
                 },
                 displayAlert: function displayAlert(alert) {
                     current.type = alert.type;
