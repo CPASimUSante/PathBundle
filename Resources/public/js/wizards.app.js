@@ -211,7 +211,7 @@
 
                                     var step = PathService.getStep($route.current.params.stepId);
                                     if (angular.isDefined(step) && angular.isObject(step)) {
-                                        authorization = AuthorizationCheckerService.isAuthorized(step);
+                                        authorization = AuthorizationCheckerService.isAuthorized(step, []);
                                     }
 
                                     return authorization;

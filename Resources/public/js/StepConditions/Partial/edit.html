@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <h4 class="panel-title">
             <span class="fa" data-ng-class="{ 'fa-lock': stepConditionsEditCtrl.conditionstructure.length !== 0, 'fa-unlock-alt': stepConditionsEditCtrl.conditionstructure.length === 0 }"></span>
-            {{ 'condition_access'|trans:{}:'path_wizards' }} <b>{{ stepConditionsEditCtrl.next.name }}</b>
+            {{ 'condition_access'|trans:{}:'path_wizards' }} <b>{{ stepConditionsEditCtrl.step.name }}</b> {{ 'condition_access2'|trans:{}:'path_wizards' }} <b>{{ stepConditionsEditCtrl.next.name }}</b>
         </h4>
 
         <div class="btns">

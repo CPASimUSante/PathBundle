@@ -3,7 +3,8 @@ cancel: Annuler
 close_summary: Fermer le sommaire
 copy: copie
 
-condition_access: Condition d'accès pour
+condition_access: Condition sur
+condition_access2: pour accéder à
 condition_and: ET
 condition_condition_delete: Supprimer la condition d'accès
 condition_criterion_add : Ajouter un critère
