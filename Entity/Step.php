@@ -18,6 +18,8 @@ use Innova\PathBundle\Entity\StepCondition;
  */
 class Step implements \JsonSerializable
 {
+    const DEFAULT_NAME = 'Step';
+
     /**
      * Unique identifier of the step
      * @var integer
@@ -45,6 +47,14 @@ class Step implements \JsonSerializable
      * @ORM\JoinColumn(name="parameters_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $parameters;
+
+    /**
+     * Min height of Activity
+     * @var integer
+     *
+     * @ORM\Column(name="activity_height", type="integer")
+     */
+    protected $activityHeight;
 
     /**
      * Depth of the step in the Path
@@ -269,6 +279,10 @@ class Step implements \JsonSerializable
         return $this->children;
     }
 
+    /**
+     * Check if the Step has children
+     * @return bool
+     */
     public function hasChildren()
     {
         return !empty($this->children) && 0 < $this->children->count();
@@ -368,6 +382,27 @@ class Step implements \JsonSerializable
         }
 
         return null;
+    }
+
+    /**
+     * Get min height for activity display
+     * @return int
+     */
+    public function getActivityHeight()
+    {
+        return $this->activityHeight;
+    }
+
+    /**
+     * Set min height for activity display
+     * @param  int $activityHeight
+     * @return $this
+     */
+    public function setActivityHeight($activityHeight)
+    {
+        $this->activityHeight = $activityHeight;
+
+        return $this;
     }
 
     /**
@@ -503,7 +538,7 @@ class Step implements \JsonSerializable
      *
      * @return Step
      */
-    public function setCondition(\Innova\PathBundle\Entity\StepCondition $condition = null)
+    public function setCondition(StepCondition $condition = null)
     {
         if ($condition !== $this->condition) {
             $this->condition = $condition;
@@ -536,6 +571,7 @@ class Step implements \JsonSerializable
             'id'                => $this->id,               // A local ID for the step in the path (reuse step ID)
             'resourceId'        => $this->id,               // The real ID of the Step into the DB
             'activityId'        => null,
+            'activityHeight'    => $this->activityHeight,
             'lvl'               => $this->lvl,              // The depth of the step in the path structure
             'name'              => $this->getName(),        // The name of the linked Activity (used as Step name)
             'description'       => $this->getDescription(), // The description of the linked Activity (used as Step description)
@@ -587,7 +623,6 @@ class Step implements \JsonSerializable
             if (!empty($secondaryResources)) {
                 // Get propagated resources of the current step
                 $propagatedResources = $this->getPropagatedResources($this->lvl);
-
 
                 foreach ($secondaryResources as $secondaryResource) {
                     $jsonArray['resources'][] = array(
@@ -650,6 +685,7 @@ class Step implements \JsonSerializable
                  */
                 return ($a->getOrder() < $b->getOrder()) ? -1 : 1;
             });
+
             $this->children = new ArrayCollection(iterator_to_array($iterator));
 
             $jsonArray['children'] = array_values($this->children->toArray());

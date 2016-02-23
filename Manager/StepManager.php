@@ -2,16 +2,16 @@
 
 namespace Innova\PathBundle\Manager;
 
-use Claroline\CoreBundle\Entity\Activity\ActivityParameters;
-use Claroline\CoreBundle\Entity\Resource\Activity;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Claroline\CoreBundle\Manager\ResourceManager;
+use Claroline\CoreBundle\Entity\Resource\Activity;
+use Claroline\CoreBundle\Entity\Activity\ActivityParameters;
 use Innova\PathBundle\Entity\InheritedResource;
 use Innova\PathBundle\Entity\Step;
 use Innova\PathBundle\Entity\Path\Path;
-use Innova\PathBundle\Entity\StepCondition;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Innova\PathBundle\Manager\Condition\StepConditionManager;
 
 class StepManager
 {
@@ -41,22 +41,24 @@ class StepManager
 
     /**
      * Class constructor
-     * @param \Doctrine\Common\Persistence\ObjectManager $om
-     * @param \Claroline\CoreBundle\Manager\ResourceManager $resourceManager
-     * @param StepConditionsManager $stepConditionsManager
+     * @param \Doctrine\Common\Persistence\ObjectManager                 $om
      * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param \Symfony\Component\Translation\TranslatorInterface         $translator
+     * @param \Claroline\CoreBundle\Manager\ResourceManager              $resourceManager
+     * @param \Innova\PathBundle\Manager\Condition\StepConditionManager  $stepConditionManager
      */
     public function __construct(
-        ObjectManager            $om,
-        ResourceManager          $resourceManager,
-        SessionInterface         $session,
-        TranslatorInterface      $translator)
+        ObjectManager        $om,
+        SessionInterface     $session,
+        TranslatorInterface  $translator,
+        ResourceManager      $resourceManager,
+        StepConditionManager $stepConditionManager)
     {
-        $this->om              = $om;
-        $this->resourceManager = $resourceManager;
-        $this->session         = $session;
-        $this->translator      = $translator;
+        $this->om                   = $om;
+        $this->session              = $session;
+        $this->translator           = $translator;
+        $this->resourceManager      = $resourceManager;
+        $this->stepConditionManager = $stepConditionManager;
     }
 
     /**
@@ -103,8 +105,15 @@ class StepManager
         $step->setLvl($level);
         $step->setOrder($order);
 
+        $height = $stepStructure->activityHeight ? $stepStructure->activityHeight : 0;
+        $step->setActivityHeight($height);
+
+        // Update related Activity
         $this->updateParameters($step, $stepStructure);
         $this->updateActivity($step, $stepStructure);
+
+        // Manages Access condition for the next Step
+        $this->updateCondition($step, $stepStructure);
 
         // Save modifications
         $this->om->persist($step);
@@ -113,6 +122,34 @@ class StepManager
     }
 
     /**
+     * Update or create Access condition
+     * @param Step $step
+     * @param \stdClass $stepStructure
+     */
+    public function updateCondition(Step $step, \stdClass $stepStructure)
+    {
+        $condition = null;
+        $oldCondition = $step->getCondition();
+        if (!empty($stepStructure->condition)) {
+            // Create or Update the Condition
+            if (empty($stepStructure->condition->scid) || (!empty($oldCondition) && $stepStructure->condition->scid !== $oldCondition->getId())) {
+                // Condition has never been published or has been replaced by a new one
+                $condition = $this->stepConditionManager->create($step, $stepStructure->condition);
+            } else {
+                // Update existing condition
+                $condition = $this->stepConditionManager->edit($step, $oldCondition, $stepStructure->condition);
+            }
+        }
+
+        // Remove the old condition if needed
+        if (!empty($oldCondition) && (empty($condition) || $condition->getId() !== $oldCondition->getId())) {
+            $oldCondition->setStep(null);
+            $this->om->remove($oldCondition);
+        }
+    }
+
+    /**
+     * Update or Create the Activity linked to the Step
      * @param  \Innova\PathBundle\Entity\Step               $step
      * @param  \stdClass                                    $stepStructure
      * @return \Innova\PathBundle\Manager\PublishingManager
@@ -143,7 +180,7 @@ class StepManager
             $name = $stepStructure->name;
         } else {
             // Create a default name
-            $name = $step->getPath()->getName() . ' - ' . Step::DEFAULT_NAME . ' ' . $step->getOrder();
+            $name = Step::DEFAULT_NAME . ' ' . $step->getOrder();
         }
         $activity->setName($name);
         $activity->setTitle($name);
@@ -187,15 +224,18 @@ class StepManager
             $activity->getResourceNode()->setName($activity->getTitle());
         }
 
-        // Update JSON structure
-        $stepStructure->activityId = $activity->getId();
-
         // Store Activity in Step
         $step->setActivity($activity);
 
         return $this;
     }
 
+    /**
+     * Update parameters of the Step
+     * @param Step $step
+     * @param \stdClass $stepStructure
+     * @return $this
+     */
     public function updateParameters(Step $step, \stdClass $stepStructure)
     {
         $parameters = $step->getParameters();
@@ -231,6 +271,12 @@ class StepManager
         return $this;
     }
 
+    /**
+     * Update secondary Resources of the Step
+     * @param ActivityParameters $parameters
+     * @param \stdClass $stepStructure
+     * @return $this
+     */
     public function updateSecondaryResources(ActivityParameters $parameters, \stdClass $stepStructure)
     {
         // Store current resources to clean removed
@@ -249,8 +295,8 @@ class StepManager
                 } else {
                     $warning = $this->translator->trans('warning_compl_resource_deleted', array('resourceId' => $resource->resourceId, 'resourceName' => $resource->name), "innova_tools");
                     $this->session->getFlashBag()->add('warning', $warning);
-                    unset($stepStructure->resources[$i]);
                 }
+
                 $i++;
             }
         }
@@ -265,6 +311,14 @@ class StepManager
         return $this;
     }
 
+    /**
+     * Import a Step
+     * @param Path $path
+     * @param array $data
+     * @param array $createdResources
+     * @param array $createdSteps
+     * @return array
+     */
     public function import(Path $path, array $data, array $createdResources = array (), array $createdSteps = array ())
     {
         $step = new Step();
