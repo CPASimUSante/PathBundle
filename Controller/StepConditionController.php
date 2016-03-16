@@ -36,6 +36,7 @@ class StepConditionController extends Controller
     private $groupManager;
     private $evaluationRepo;
     private $teamManager;
+
     /**
      * Security Token
      * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityToken
@@ -77,13 +78,8 @@ class StepConditionController extends Controller
     public function getUserGroups()
     {
         $data = array();
-<<<<<<< HEAD:Controller/StepConditionsController.php
-//        $groupmanager = $this->container->get('claroline.manager.group_manager');
         $usergroup = $this->groupManager->getAll();
-=======
 
-        $usergroup = $this->groupManager->getAllGroupsWithoutPager();
->>>>>>> 39e6159465c1c79677aea0a9becac58413667a80:Controller/StepConditionController.php
         if ($usergroup != null) {
             //data needs to be explicitly set because Group does not extends Serializable
             foreach($usergroup as $ug) {
