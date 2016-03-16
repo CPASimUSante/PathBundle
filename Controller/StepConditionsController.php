@@ -78,7 +78,7 @@ class StepConditionsController extends Controller
     {
         $data = array();
 //        $groupmanager = $this->container->get('claroline.manager.group_manager');
-        $usergroup = $this->groupManager->getAllGroupsWithoutPager();
+        $usergroup = $this->groupManager->getAll();
         if ($usergroup != null) {
             //data needs to be explicitly set because Group does not extends Serializable
             foreach($usergroup as $ug) {
