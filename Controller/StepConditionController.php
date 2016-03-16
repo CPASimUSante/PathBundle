@@ -18,15 +18,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Claroline\CoreBundle\Entity\Activity\AbstractEvaluation;
 
 /**
- * Class StepConditionsController
+ * Class StepConditionController
  *
  * @Route(
  *      "/stepconditions",
- *      name    = "innova_path_stepconditions",
- *      service = "innova_path.controller.step_conditions"
+ *      name    = "innova_path_stepcondition",
+ *      service = "innova_path.controller.step_condition"
  * )
  */
-class StepConditionsController extends Controller
+class StepConditionController extends Controller
 {
     /**
      * Object manager
@@ -77,14 +77,20 @@ class StepConditionsController extends Controller
     public function getUserGroups()
     {
         $data = array();
+<<<<<<< HEAD:Controller/StepConditionsController.php
 //        $groupmanager = $this->container->get('claroline.manager.group_manager');
         $usergroup = $this->groupManager->getAll();
+=======
+
+        $usergroup = $this->groupManager->getAllGroupsWithoutPager();
+>>>>>>> 39e6159465c1c79677aea0a9becac58413667a80:Controller/StepConditionController.php
         if ($usergroup != null) {
             //data needs to be explicitly set because Group does not extends Serializable
             foreach($usergroup as $ug) {
                 $data[$ug->getId()] = $ug->getName();
             }
         }
+
         return new JsonResponse($data);
     }
 
@@ -102,18 +108,17 @@ class StepConditionsController extends Controller
      */
     public function getGroupsForUser()
     {
-        //retrieve current user
+        // Retrieve the current User
         $user = $this->securityToken->getToken()->getUser();
-        $userId = $user->getId();
+        // Retrieve Groups of the User
+        $groups = $user->getGroups();
+
+        // data needs to be explicitly set because Group does not extends Serializable
         $data = array();
-        //retrieve list of groups object for this user
-        $groupforuser = $this->om->getRepository("InnovaPathBundle:StepConditionsGroup")->getAllForUser($userId, true, 'id');
-        if ($groupforuser != null) {
-            //data needs to be explicitly set because Group does not extends Serializable
-            foreach($groupforuser as $ug) {
-                $data[$ug->getId()] = $ug->getName();
-            }
+        foreach($groups as $group) {
+            $data[$group->getId()] = $group->getName();
         }
+
         return new JsonResponse($data);
     }
 
@@ -205,7 +210,7 @@ class StepConditionsController extends Controller
         $steps = $this->om->getRepository('InnovaPathBundle:Path')->findById($path);
 
         foreach($steps as $step){
-            $activitylist[$step->getId()] = StepConditionsController::getActivityEvaluation($step->getActivity());
+            $activitylist[$step->getId()] = StepConditionController::getActivityEvaluation($step->getActivity());
         }
         return new JsonResponse($activitylist);
     }

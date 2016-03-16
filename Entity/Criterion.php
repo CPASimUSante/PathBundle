@@ -9,7 +9,7 @@ use Innova\PathBundle\Entity\Criteriagroup;
  * Criterion
  *
  * @ORM\Table(name="innova_stepcondition_criterion")
- * @ORM\Entity(repositoryClass="Innova\PathBundle\Repository\CriterionRepository")
+ * @ORM\Entity
  */
 class Criterion implements \JsonSerializable
 {
@@ -133,10 +133,10 @@ class Criterion implements \JsonSerializable
     {
         // Initialize data array
         $jsonArray = array (
-            'id'                => $this->id,                   // A local ID for the criterion in the criteriagroup
-            'critid'            => $this->id,                   // The real ID of the criterion into the DB
-            'type'              => $this->getCtype(),           // criterion type
-            'data'              => $this->getData(),            // criterion data
+            'id'     => $this->id,                   // A local ID for the criterion in the criteriagroup
+            'critid' => $this->id,                   // The real ID of the criterion into the DB
+            'type'   => $this->getCtype(),           // criterion type
+            'data'   => $this->getData(),            // criterion data
         );
 
         return $jsonArray;
